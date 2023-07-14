@@ -9,18 +9,21 @@ import UserAccount from './UserAccount';
 
 const App = () => {
 
-  const [loginState,setLoginState] = useState( false );
-  const [securityToken,setSecurityToken] = useState( "" );
-  const [activeWalletId,setActiveWalletId] = useState( 0 );
+  const [userDetails,setUserDetails] = useState( { loginState: false } );
 
   const handleOnLogin = ( username, token, walletId ) => {
-    setLoginState( true );
-    setSecurityToken( token );
-    setActiveWalletId( walletId );
+    setUserDetails( {
+        loginState: true,
+        "username": username,
+        "token": token,
+        "walletId": walletId
+    });
   }
 
   const handleLogout = () => {
-    setLoginState( false );
+    setUserDetails( {
+      loginState: false
+    });
   }
 
   const doBalanceCheck = async () => {
@@ -32,9 +35,9 @@ const App = () => {
 
       headers: {
         "Content-Type": "application/json",
-        "X-Custom": securityToken
+        "X-Custom": userDetails.token
       },
-      body: JSON.stringify( { "walletId": activeWalletId } )
+      body: JSON.stringify( { "walletId": userDetails.walletId } )
     });
     if ( response.status == 200 ) {
       const data = await response.json();
@@ -49,13 +52,14 @@ const App = () => {
   return (
     <div className="App">
       <CreateUser />
-      { loginState === false ? ( 
+      { userDetails.loginState === false ? ( 
         <LoginUser 
           onLogin={ handleOnLogin }
         />
         ):(
           <UserAccount
             handleLogout={handleLogout}
+            userDetails={userDetails}
           />
         )}
 

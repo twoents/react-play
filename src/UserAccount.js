@@ -16,7 +16,7 @@ import React, { useState, useEffect, useRef } from 'react';
   */
 
 
-const UserAccount = ( { handleLogout, accountDetails } ) => {
+const UserAccount = ( { handleLogout, userDetails } ) => {
 
     const [init,setInit] = useState( false );
     const dataFetchedRef = useRef(false);
@@ -30,7 +30,7 @@ const UserAccount = ( { handleLogout, accountDetails } ) => {
     return(
         <div className="card">
             <div className="card-header">
-                <span className="h4">Account Details for </span>
+                <span className="h4">Account Details for {userDetails.username}</span>
                 <a className="btn btn-danger" href="#"  style={{float: 'right'}} role="button" onClick={handleLogout}>Logout</a>
             </div>
             <div className="card-body">

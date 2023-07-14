@@ -2,29 +2,31 @@ import React, { useState } from 'react';
 
 const LoginUser = ( { onLogin, onLoginFailed, onLogoff } ) => {
 
-  const [loginState, setLoginState] = useState( false );
   const [liUsername,setLiUsername] = useState("");
   const [liPassword,setLiPassword] = useState("");
 
   const doLogin = async( userDetails ) => {
-    const response = await fetch( 
-      "http://localhost:8000/login",{
-      method: "POST",
+    try {
+      const response = await fetch( 
+        "http://localhost:8000/login",{
+        method: "POST",
 
-      headers: {
-        "Content-Type": "application/json",
-        "X-Custom": "Please just register"
-      },
-      body: JSON.stringify( userDetails )
-    });
-    const data = await response.json();
-    if ( data.status == "OK" ) {
-      setLoginState( true );
-      onLogin( userDetails.username, data.token, data.walletId );
+        headers: {
+          "Content-Type": "application/json",
+          "X-Custom": "Please just register"
+        },
+        body: JSON.stringify( userDetails )
+      });
+      const data = await response.json();
+      if ( data.status === "OK" ) {
+        onLogin( userDetails.username, data.token, data.walletId );
+      }
+      else {
+        onLoginFailed( "invalid username/password");      
+      }
     }
-    else {
-      setLoginState( false );
-      onLoginFailed();      
+    catch ( e ) {
+      onLoginFailed( "technical error");      
     }
   }
 

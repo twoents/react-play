@@ -31,12 +31,12 @@ const CreateUser = () => {
       }
 
       return (
-        caViewMode != false ?
+        caViewMode !== false ?
          ( 
         <div className="card">
             <div className="card-header">
                 <span className="h4">Account creation</span>
-                <a className="btn btn-danger" href="#"  style={{float: 'right'}} role="button" onClick={hideCreateUser}>hide create user</a>
+                <button className="btn btn-danger" style={{float: 'right'}} onClick={hideCreateUser}>hide create user</button>
             </div>
             <div className="card-body">
                 <div className="container">
@@ -63,7 +63,7 @@ const CreateUser = () => {
                         </div>
                         <div className='col-sm-6'>
                             <h4>User creation log</h4>
-                            {caAccountLog.slice(-4).map( (account => (<div>{account.username} created with an id of {account.userId}</div> ) ) )}
+                            {caAccountLog.slice(-4).map( (account => (<div key={account.userId}>{account.username} created with an id of {account.userId}</div> ) ) )}
                         </div>
                     </div>
                 </div>
@@ -73,7 +73,7 @@ const CreateUser = () => {
         <div className="card">
             <div className="card-header">
                 <span className="h4">Account creation</span>
-                <a className="btn btn-primary"  style={{float: 'right'}} role="button" href="#" onClick={showCreateUser}>show create user</a>
+                <button className="btn btn-primary"  style={{float: 'right'}} href="#" onClick={showCreateUser}>show create user</button>
             </div>
         </div>
         )

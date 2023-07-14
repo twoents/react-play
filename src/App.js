@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -11,7 +11,7 @@ const App = () => {
 
   const [userDetails,setUserDetails] = useState( { loginState: false } );
 
-  const handleOnLogin = ( username, token, walletId ) => {
+  const handleLogin = ( username, token, walletId ) => {
     setUserDetails( {
         loginState: true,
         "username": username,
@@ -26,27 +26,8 @@ const App = () => {
     });
   }
 
-  const doBalanceCheck = async () => {
-    const response = await fetch( 
-      "http://localhost:8000/sec/showBalance",{
-      method: "POST",
-      mode: "cors",
-      credentials: "include",
-
-      headers: {
-        "Content-Type": "application/json",
-        "X-Custom": userDetails.token
-      },
-      body: JSON.stringify( { "walletId": userDetails.walletId } )
-    });
-    if ( response.status == 200 ) {
-      const data = await response.json();
-      console.log( data );
-    }
-    else {
-      alert( "unauthorized");
-    }
-
+  const handleLoginFailed = (  errorMessage ) => {
+    alert( errorMessage );
   }
 
   return (
@@ -54,7 +35,8 @@ const App = () => {
       <CreateUser />
       { userDetails.loginState === false ? ( 
         <LoginUser 
-          onLogin={ handleOnLogin }
+          onLogin={ handleLogin }
+          onLoginFailed={handleLoginFailed}
         />
         ):(
           <UserAccount

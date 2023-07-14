@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import ReactCaptcha from 'modern-react-captcha';
+import reloadIcon from './icons8-refresh.svg';
 
 const CreateUser = () => {
 
     const [caViewMode,setCaViewMode] = useState( false );
+    const [caDisabled,setCaDisabled] = useState( true );
     const [caUsername,setCaUsername] = useState( "" );
     const [caPassword,setCaPassword] = useState( "" );
     const [caAccountLog, setCaAccountLog] = useState( [] );
@@ -30,6 +33,16 @@ const CreateUser = () => {
         setCaViewMode( true );
       }
 
+      const handleSuccess = () => {
+        setCaDisabled( false );
+
+      }
+
+      const handleFailure = () => {
+        //alert( "cap bad");
+
+      }
+
       return (
         caViewMode !== false ?
          ( 
@@ -41,7 +54,7 @@ const CreateUser = () => {
             <div className="card-body">
                 <div className="container">
                     <div className="row">
-                        <div className="col-sm-6">
+                        <div className="col-sm-4">
                             <h4>User details</h4>
                             <input
                                 type="text"
@@ -59,10 +72,22 @@ const CreateUser = () => {
                                 placeholder="password"
                             />
                             <br></br>
-                            <button className="btn btn-primary" onClick={() => createAccount( { "username" : caUsername, "password": caPassword })}>press me</button>
+                            <button disabled={caDisabled} className="btn btn-primary" onClick={() => createAccount( { "username" : caUsername, "password": caPassword })}>press me</button>
                         </div>
-                        <div className='col-sm-6'>
-                            <h4>User creation log</h4>
+                            <div className='col-sm-4'>
+                                <ReactCaptcha
+                                    charset='ul'
+                                    length={6}
+                                    color='black'
+                                    bgColor='white'
+                                    reload={true}
+                                    reloadText='Reload Captcha'
+                                    reloadIcon={reloadIcon}
+                                    handleSuccess={handleSuccess}
+                                    handleFailure={handleFailure} />
+                            </div>
+                        <div className='col-sm-4'>
+                            <h4>Creation log</h4>
                             {caAccountLog.slice(-4).map( (account => (<div key={account.userId}>{account.username} created with an id of {account.userId}</div> ) ) )}
                         </div>
                     </div>

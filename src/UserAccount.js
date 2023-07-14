@@ -134,15 +134,15 @@ const UserAccount = ( { handleLogout, userDetails } ) => {
                     { transactions.length > 0 ? (
                     <>
                     <div className="row">
-                        <div className="col text-bg-light">date</div>
-                        <div className="col text-bg-light">description</div>
-                        <div className="col text-bg-light">amount</div>
+                        <div className="col text-bg-light h6">date</div>
+                        <div className="col text-bg-light h6">description</div>
+                        <div className="col text-bg-light h6" style={{textAlign: 'right'}}>amount</div>
                     </div>
                     {transactions.map( ( transaction ) => ( 
                     <div key={transaction.id} className="row">
                         <div  className="col">{transaction.txDate}</div>       
                         <div className="col">{transaction.description}</div>       
-                        <div className="col">{transaction.amount}</div>
+                        <div className="col" style={{textAlign: 'right'}}>{transaction.amount.toFixed(2)}</div>
                     </div>
                     ))}
                     </>

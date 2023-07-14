@@ -52,8 +52,9 @@ const UserAccount = ( { handleLogout, userDetails } ) => {
           if ( response.status === 200 ) {
             const data = await response.json();
             setWallet( data );
-            setDebitAmount( "0.00" );
+            setDebitAmount( 0.00 );
             setDebitDesc( "" );
+            getTransactions();
           }
           else if ( response.status === 401 ) {
             alert( "unauthorized" );
@@ -78,8 +79,9 @@ const UserAccount = ( { handleLogout, userDetails } ) => {
           if ( response.status === 200 ) {
             const data = await response.json();
             setWallet( data );
-            setCreditAmount( "0.00" );
+            setCreditAmount( 0.00 );
             setCreditDesc( "" );
+            getTransactions();
           }
           else if ( response.status === 401 ) {
             alert( "unauthorized" );
@@ -122,7 +124,7 @@ const UserAccount = ( { handleLogout, userDetails } ) => {
         <div className="card">
             <div className="card-header">
                 <span className="h4">Account Details for "{userDetails.username}"</span>
-                <a className="btn btn-danger" href="#"  style={{float: 'right'}} role="button" onClick={handleLogout}>Logout</a>
+                <button className="btn btn-danger" style={{float: 'right'}} onClick={handleLogout}>Logout</button>
             </div>
             <div className="card-body">
                 <div className="container">
@@ -136,17 +138,13 @@ const UserAccount = ( { handleLogout, userDetails } ) => {
                         <div className="col text-bg-light">description</div>
                         <div className="col text-bg-light">amount</div>
                     </div>
-                    <div className="row">
-                        {transactions.map( ( transaction ) => ( 
-                        <>
-                        <div className="col">{transaction.txDate}</div>       
+                    {transactions.map( ( transaction ) => ( 
+                    <div key={transaction.id} className="row">
+                        <div  className="col">{transaction.txDate}</div>       
                         <div className="col">{transaction.description}</div>       
                         <div className="col">{transaction.amount}</div>
-                        <div class="w-100"></div>
-       
-                        </>
-                        ))}
                     </div>
+                    ))}
                     </>
                     ) : (
                     <div className="row">
@@ -159,12 +157,14 @@ const UserAccount = ( { handleLogout, userDetails } ) => {
                             <input 
                                 id="debitAmount"
                                 type='number'
+                                value={debitAmount}
                                 placeholder="debit amount"
                                 onChange={(e) => setDebitAmount(e.target.value)}
                             />
                             <input 
                                 id="debitDesc"
                                 type='text'
+                                value={debitDesc}
                                 placeholder="description"
                                 onChange={(e) => setDebitDesc(e.target.value)}
                             />
@@ -174,11 +174,13 @@ const UserAccount = ( { handleLogout, userDetails } ) => {
                         <input 
                                 id="creditAmount"
                                 type='number'
+                                value={creditAmount}
                                 placeholder="credit amount"
                                 onChange={(e) => setCreditAmount(e.target.value)}
                             />
                             <input 
                                 id="creditDesc"
+                                value={creditDesc}
                                 type='text'
                                 placeholder="description"
                                 onChange={(e) => setCreditDesc(e.target.value)}

@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import CreateUser from './CreateUser';
 import LoginUser from './LoginUser';
+import UserAccount from './UserAccount';
 
 const App = () => {
 
@@ -12,10 +13,14 @@ const App = () => {
   const [securityToken,setSecurityToken] = useState( "" );
   const [activeWalletId,setActiveWalletId] = useState( 0 );
 
-  const handleOnLogin = ( token, walletId ) => {
+  const handleOnLogin = ( username, token, walletId ) => {
     setLoginState( true );
     setSecurityToken( token );
     setActiveWalletId( walletId );
+  }
+
+  const handleLogout = () => {
+    setLoginState( false );
   }
 
   const doBalanceCheck = async () => {
@@ -49,12 +54,10 @@ const App = () => {
           onLogin={ handleOnLogin }
         />
         ):(
-          <button onClick={doBalanceCheck}>check balance</button>
+          <UserAccount
+            handleLogout={handleLogout}
+          />
         )}
-    <input 
-      type="text"
-      value={securityToken}
-      />
 
     </div>
     

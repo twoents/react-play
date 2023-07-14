@@ -20,7 +20,7 @@ const LoginUser = ( { onLogin, onLoginFailed, onLogoff } ) => {
     const data = await response.json();
     if ( data.status == "OK" ) {
       setLoginState( true );
-      onLogin( data.token, data.walletId );
+      onLogin( userDetails.username, data.token, data.walletId );
     }
     else {
       setLoginState( false );

@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  text-align: left;
 }
 
 .App-logo {
@@ -9,12 +9,14 @@
 
 .CreateUser {
   border: 1px solid #000000;
-  width: min-content;
+  width: 200px;
+  text-align: center;
 }
 
 .LoginUser {
   border: 1px solid #000000;
-  width: min-content;
+  width: 200px;
+  text-align: center;
 }
 
 
